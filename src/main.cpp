@@ -31,9 +31,9 @@ ReactESP app([]() {
 
 
   sensesp_app = builder.set_standard_sensors(ALL)
-            ->set_hostname("freshwaterport")
-            ->set_sk_server("10.10.10.1", 3000) // Don't specify server address or port
-            ->set_wifi("SSID", "Password")
+            ->set_hostname("dieseltank")
+  //        ->set_sk_server("10.10.10.1", 3000) // Don't specify server address or port instead use mDNS to find SignalK server
+            ->set_wifi("SSID", "Password")      // Make sure to include your SSID and password for SignalK network on the boat
             ->get_app(); 
 
   // The "Signal K path" identifies this sensor to the Signal K server. Leaving
@@ -43,7 +43,7 @@ ReactESP app([]() {
   // https://signalk.org/specification/1.4.0/doc/vesselsBranch.html
   //const char *sk_path = "tanks.freshWater.port.currentLevel";
   //const char *sk_path = "tanks.freshWater.starbord.currentLevel";
-  const char *sk_path = "tanks.fuel.daytank.currentLevel";
+  const char *sk_path = "tanks.fuel.diesel.currentLevel";
 
 
   // The "Configuration path" is combined with "/config" to formulate a URL
@@ -56,9 +56,9 @@ ReactESP app([]() {
   // run-time configuration.
 
   const char *ultrasonic_in_config_path =
-      "/freshWaterTank_starboard/ultrasonic_in";
-  const char *linear_config_path = "/freshWaterTank_starboard/linear";
-  const char *ultrasonic_ave_samples = "/freshWaterTank_starboard/samples";
+      "/dieselTank_stern/ultrasonic_in";
+  const char *linear_config_path = "/dieselTank_stern/linear";
+  const char *ultrasonic_ave_samples = "/dieselTank_stern/samples";
 
   // Create a sensor that is the source of our data, that will be read every
   // readDelay ms. It is an ultrasonic distance sensor that sends out an
@@ -87,7 +87,7 @@ ReactESP app([]() {
 // with offset 
 
   const float empty_value = 0; // in mm 
-  const float full_value = 200; // in mm  
+  const float full_value = 200; // in mm  // Adjust for your tank appropriately
   const float range = full_value - empty_value;
   const float divisor = range / 100.0;
   const float multiplier = 1.0 / divisor; //  (1 / 4.5 = 0.0222222)
